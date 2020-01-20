@@ -1,6 +1,3 @@
-const Vue = require ('vue');
-const _cloneDeep = require('lodash.clonedeep');
-
 /**
  * Swaps single and double quotes
  *
@@ -35,23 +32,6 @@ function stringify (obj) {
 }
 
 /**
- * Creates a Vue instance to render the vnode as an HTML string.
- *
- * @param  {object} vnode  Vue's vnode object
- * @return {string}        The rendered HTML
- */
-function vnodeToString (vnode) {
-  const vm = new Vue({
-    render: function () {
-      return vnode;
-    }
-  });
-  const html = vm.$mount().$el.outerHTML;
-  vm.$destroy();
-  return html;
-}
-
-/**
  * Recursively loops over vnode properties in Vue wrapper
  * to stringify attrs.
  *
@@ -77,25 +57,6 @@ function convertVNodeDataAttributesToString (vnode) {
   }
 }
 
-// This does not seem to make an actual copy. It is still modifying the reference.
-/**
- * Makes a copy of the vnode, so we are not mutating the original reference passed in by the test.
- *
- * @param  {object} vnode Vue's vnode from the wrapper
- * @return {object}       A copy of the vnode
- *
-function copyVnode (vnode) {
-  const vm = new Vue({
-    render: function () {
-      return vnode;
-    }
-  });
-  const copy = vm.$mount()._vnode;
-  vm.$destroy();
-  return copy;
-}
- */
-
 /**
  * Checks settings and if Vue wrapper is valid, then converts
  * vnode attributes to a string with clean quotes.
@@ -104,19 +65,11 @@ function copyVnode (vnode) {
  *
  * @param  {object} wrapper  A Vue wrapper
  * @param  {object} options  Options object for this serializer
- * @return {string}          Modified HTML string
  */
 function replaceObjectObject (wrapper, options) {
-  if (
-    (!options || options.stringifyObjects) &&
-    (wrapper && wrapper.vnode)
-  ) {
-    // let vnode = copyVnode(wrapper.vnode);
-    let vnode = _cloneDeep(wrapper.vnode);
-    convertVNodeDataAttributesToString(vnode);
-    return vnodeToString(vnode);
+  if (options && options.stringifyObjects) {
+    convertVNodeDataAttributesToString(wrapper.vnode);
   }
-  return wrapper.html();
 }
 
 module.exports = replaceObjectObject;

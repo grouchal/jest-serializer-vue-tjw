@@ -1,6 +1,9 @@
 const pretty = require('pretty');
+const _cloneDeep = require('lodash.clonedeep');
 
+const helpers = require('./src/helpers.js');
 const loadOptions = require('./src/loadOptions.js');
+const removeFalseVIf = require('./src/removeFalseVIf.js');
 const replaceObjectObject = require('./src/replaceObjectObject.js');
 
 /**
@@ -27,7 +30,8 @@ function isVueWrapper (received) {
   return (
     received &&
     typeof(received) === 'object' &&
-    typeof(received.isVueInstance) === 'function'
+    typeof(received.isVueInstance) === 'function' &&
+    received.isVueInstance()
   );
 }
 
@@ -113,9 +117,23 @@ module.exports = {
     const options = loadOptions();
 
     let html = received || '';
+
     if (isVueWrapper(received)) {
-      html = replaceObjectObject(received, options) || '';
+      let wrapper = _cloneDeep(received);
+      console.log(wrapper && wrapper.vnode);
+      console.log(wrapper && wrapper.componentInstance);
+      if (wrapper && wrapper.vnode) {
+        wrapper = removeFalseVIf(wrapper, options);
+        // wrapper = replaceObjectObject(wrapper, options);
+        html = helpers.vnodeToString(wrapper.vnode) || '';
+      } else if (wrapper && wrapper.element && wrapper.element.outerHTML) {
+        html = wrapper.element.outerHTML;
+      } else {
+        html = '';
+      }
     }
+
+    console.log(html.length);
     html = removeServerRenderedText(html, options);
     html = removeDataTestAttributes(html, options);
     html = removeScopedStylesDataVIDAttributes(html, options);
