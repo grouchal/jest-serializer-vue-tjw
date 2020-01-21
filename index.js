@@ -38,9 +38,9 @@ function isVueWrapper (received) {
 /**
  * This removes the data-server-rendered="true" from your snapshots.
  *
- * @param  {string} html    The markup being serialized.
- * @param  {object} options Options object for this serializer
- * @return {string}         Modified HTML string
+ * @param  {string} html     The markup being serialized
+ * @param  {object} options  Options object for this serializer
+ * @return {string}          Modified HTML string
  */
 function removeServerRenderedText (html, options) {
   if (!options || options.removeServerRendered) {
@@ -59,9 +59,9 @@ function removeServerRenderedText (html, options) {
  * If you also want to remove them from your production builds, see:
  * https://forum.vuejs.org/t/how-to-remove-attributes-from-tags-inside-vue-components/24138
  *
- * @param  {string} html    The markup being serialized.
- * @param  {object} options Options object for this serializer
- * @return {string}         Modified HTML string
+ * @param  {string} html     The markup being serialized
+ * @param  {object} options  Options object for this serializer
+ * @return {string}          Modified HTML string
  */
 function removeDataTestAttributes (html, options) {
   if (!options || options.removeDataTest) {
@@ -83,9 +83,9 @@ function removeDataTestAttributes (html, options) {
 /**
  * This removes data-v-1234abcd="" from your snapshots.
  *
- * @param  {string} html    The markup being serialized.
- * @param  {object} options Options object for this serializer
- * @return {string}         Modified HTML string
+ * @param  {string} html     The markup being serialized
+ * @param  {object} options  Options object for this serializer
+ * @return {string}          Modified HTML string
  */
 function removeScopedStylesDataVIDAttributes (html, options) {
   if (!options || options.removeDataVId) {
@@ -101,9 +101,9 @@ function removeScopedStylesDataVIDAttributes (html, options) {
  * Multi-line <!-- \n asdf \n asdf \n -->
  * Containing HTML <!-- <div></div> -->
  *
- * @param  {string} html    The markup being serialized.
- * @param  {object} options Options object for this serializer
- * @return {string}         Modified HTML string
+ * @param  {string} html     The markup being serialized
+ * @param  {object} options  Options object for this serializer
+ * @return {string}          Modified HTML string
  */
 function removeAllComments (html, options) {
   if (options && options.removeComments) {
