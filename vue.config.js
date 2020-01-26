@@ -1,11 +1,7 @@
-// This is used to override the library defaults so the tests will run as expected
+// This file is referenced by our tests and is used to override settings for each test
 
 module.exports = {
   pluginOptions: {
-    jestSerializer: {
-      removeVIf: true,
-      removeComments: false,
-      stringifyObjects: true
-    }
+    jestSerializer: {}
   }
 };
